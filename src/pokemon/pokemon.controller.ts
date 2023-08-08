@@ -16,6 +16,7 @@ export class PokemonController {
   constructor(private readonly pokemonService: PokemonService) {}
 
   @Post()
+  // @HttpCode(HttpStatus.UNAUTHORIZED) -> Esto es útil para devolver códigos específicos
   create(@Body() createPokemonDto: CreatePokemonDto) {
     return this.pokemonService.create(createPokemonDto);
   }
