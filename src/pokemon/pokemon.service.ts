@@ -2,9 +2,10 @@ import {
   BadRequestException,
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, isValidObjectId } from 'mongoose';
 import { CreatePokemonDto } from './dto/create-pokemon.dto';
 import { UpdatePokemonDto } from './dto/update-pokemon.dto';
 import { Pokemon } from './entities/pokemon.entity';
@@ -15,6 +16,7 @@ export class PokemonService {
     @InjectModel(Pokemon.name)
     private readonly pokemonModel: Model<Pokemon>,
   ) {}
+
   async create(createPokemonDto: CreatePokemonDto) {
     createPokemonDto.name = createPokemonDto.name.toLowerCase();
     // Grabar en base de datos - Inserción
@@ -38,8 +40,30 @@ export class PokemonService {
     return `This action returns all pokemon`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} pokemon`;
+  async findOne(term: string) {
+    let pokemon: Pokemon;
+
+    // Verificar si el id es un número -> Si es número busco por número
+    if (!isNaN(+term)) {
+      pokemon = await this.pokemonModel.findOne({ no: term });
+    }
+    // Mongo ID -> Si es un ID de mongo válido, busco por id
+    if (!pokemon && isValidObjectId(term)) {
+      pokemon = await this.pokemonModel.findById(term);
+    }
+    // Name -> Si no es ninguna de las dos opciones de arriba buscamos por nombre
+    if (!pokemon) {
+      pokemon = await this.pokemonModel.findOne({
+        name: term.toLowerCase().trim(),
+      });
+    }
+    // Finalmente, si las 3 búsquedas anteriores fueron fallidas arrojamos el error
+    if (!pokemon)
+      throw new NotFoundException(
+        `Pokemon with id, name or no "${term}" not found`,
+      );
+
+    return pokemon;
   }
 
   update(id: number, updatePokemonDto: UpdatePokemonDto) {
