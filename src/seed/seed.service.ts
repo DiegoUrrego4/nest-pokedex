@@ -16,7 +16,7 @@ export class SeedService {
   ) {}
 
   async executeSeed() {
-    // Esta línea es para borrar los pokemones en la BD, en caso de que existan.
+    // Esta línea es para borrar los pokemons en la BD, en caso de que existan.
     await this.pokemonModel.deleteMany({});
     const data = await this.http.get<PokeResponse>(
       'https://pokeapi.co/api/v2/pokemon?limit=650',
