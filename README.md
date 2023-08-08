@@ -17,7 +17,12 @@
    ```
    docker-compose up -d
    ```
+5. Reconstruct BD using SEED
+   ```
+   http://localhost:3000/api/v2/seed
+   ```
 
 # Stack used:
+
 - Mongo DB
 - Nest JS
