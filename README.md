@@ -17,7 +17,13 @@
    ```
    docker-compose up -d
    ```
-5. Reconstruct BD using SEED
+5. Clone file **.env.template** and rename the copy to **.env**
+6. Fill the environment variables fields in file `.env`
+7. Run the project in dev
+   ```
+   yarn start:dev
+   ```
+8. Reconstruct BD using SEED
    ```
    http://localhost:3000/api/v2/seed
    ```
