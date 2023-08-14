@@ -33,6 +33,10 @@
 - Mongo DB
 - Nest JS
 
+# Notes
+
+This app have been deployed in the next URL: **https://nest-pokedex-production-f6ad.up.railway.app**. Remember if you want to use it you'll have to send something like **https://nest-pokedex-production-f6ad.up.railway.app/api/v2/pokemon**.
+
 # Production Build
 
 1. Create file **.env.prod**
