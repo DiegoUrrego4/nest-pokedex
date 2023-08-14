@@ -32,3 +32,12 @@
 
 - Mongo DB
 - Nest JS
+
+# Production Build
+
+1. Create file **.env.prod**
+2. Fill the environment variables of production
+3. Create the new image
+   ```
+   docker-compose -f docker-compose.prod.yaml --env-file .env.prod up --build
+   ```
